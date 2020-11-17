@@ -76,19 +76,16 @@ async function delay(ms) {
 
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
-	// render starting UI
-	// const race = TODO - invoke the API call to create the race, then save the result
 
 // TODO - Get player_id and track_id from the store
 const trackId = store.track_id;
 const playerId = store.player_id;	
-
+// const race = TODO - invoke the API call to create the race, then save the result
 const race = await createRace(playerId, trackId);
-
+// render starting UI
 	renderAt('#race', renderRaceStartView(race.Track, race.Cars))
 
-	// TODO - update the store with the race id + arr indexing
-  
+	// TODO - update the store with selected race id + account for arr indexing
 	store.race_id = race.ID - 1; 
 
 	// The race has been created, now start the countdown
@@ -107,7 +104,6 @@ function runRace(raceID) {
   const raceInt = setInterval(async function() {
 		//for race reference
 		const race = await getRace(raceID);
-		console.log(race);
 		// TODO - if the race info status property is "in-progress", update the leaderboard by calling:
 		if (race.status === "in-progress") {
 			renderAt('#leaderBoard', raceProgress(race.positions));
@@ -119,8 +115,8 @@ function runRace(raceID) {
 			resolve();
 		}	
 	}, 500);
-	}).catch(error => console.log("runRace error"));
 	// remember to add error handling for the Promise
+	}).catch(error => console.log("runRace error"));
 }
 
 async function runCountdown() {
@@ -210,16 +206,53 @@ function renderRacerCars(racers) {
 
 function renderRacerCard(racer) {
 	const { id, driver_name, top_speed, acceleration, handling } = racer
-
+  if (racer.id === 1) {
+		return `
+		<li class="card podracer" id="${id}">
+			<h3>Aayala</h3>
+			<p>speed: ${top_speed}</p>
+			<p>accel: ${acceleration}</p>
+			<p>handling: ${handling}</p>
+		</li>
+	`
+	} else if (racer.id === 2) {
 	return `
 		<li class="card podracer" id="${id}">
-			<h3>${driver_name}</h3>
-			<p>${top_speed}</p>
-			<p>${acceleration}</p>
-			<p>${handling}</p>
+			<h3>Kreia</h3>
+			<p>speed: ${top_speed}</p>
+			<p>accel: ${acceleration}</p>
+			<p>handling: ${handling}</p>
+		</li>
+	`
+} else if (racer.id === 3) {
+	return `
+		<li class="card podracer" id="${id}">
+			<h3>Rhysling</h3>
+			<p>speed: ${top_speed}</p>
+			<p>accel: ${acceleration}</p>
+			<p>handling: ${handling}</p>
+		</li>
+	`
+} else if (racer.id === 4) {
+	return `
+		<li class="card podracer" id="${id}">
+			<h3>Soval</h3>
+			<p>speed: ${top_speed}</p>
+			<p>accel: ${acceleration}</p>
+			<p>handling: ${handling}</p>
+		</li>
+	`
+} else if (racer.id === 5) {
+	return `
+		<li class="card podracer" id="${id}">
+			<h3>Makkan</h3>
+			<p>speed: ${top_speed}</p>
+			<p>accel: ${acceleration}</p>
+			<p>handling: ${handling}</p>
 		</li>
 	`
 }
+} 
 
 function renderTrackCards(tracks) {
 	if (!tracks.length) {
@@ -239,12 +272,41 @@ function renderTrackCards(tracks) {
 
 function renderTrackCard(track) {
 	const { id, name } = track
-
-	return `
+  if (track.name === 'Track 1') {
+		return `
 		<li id="${id}" class="card track">
-			<h3>${name}</h3>
+			<h3>Nebulo</h3>
 		</li>
 	`
+	}
+	else if (track.name === 'Track 2') {
+		return `
+		<li id="${id}" class="card track">
+			<h3>Titan</h3>
+		</li>
+	`
+	}
+	else if (track.name === 'Track 3') {
+		return `
+		<li id="${id}" class="card track">
+			<h3>Orbitron</h3>
+		</li>
+	`
+	}
+	else if (track.name === 'Track 4') {
+		return `
+		<li id="${id}" class="card track">
+			<h3>Flux</h3>
+		</li>
+	`
+	}
+	else if (track.name === 'Track 5') {
+		return `
+		<li id="${id}" class="card track">
+			<h3>Wormhole</h3>
+		</li>
+	`
+	}
 }
 
 function renderCountdown(count) {
