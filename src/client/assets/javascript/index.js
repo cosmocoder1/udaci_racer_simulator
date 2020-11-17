@@ -182,9 +182,11 @@ function handleSelectTrack(target) {
 	
 }
 
-function handleAccelerate() {
+async function handleAccelerate() {
 	console.log("accelerate button clicked")
 	// TODO - Invoke the API call to accelerate
+	let { race_id } = store;
+	await accelerate(race_id);
 }
 
 // HTML VIEWS ------------------------------------------------
@@ -387,9 +389,9 @@ function accelerate(id) {
 	// POST request to `${SERVER}/api/races/${id}/accelerate`
 	// options parameter provided as defaultFetchOpts
 	// no body or datatype needed for this request
-	return fetch(`${SERVER}/api/races/${id}/start`, {
+	return fetch(`${SERVER}/api/races/${id}/accelerate`, {
 		method: 'POST',
 		...defaultFetchOpts(),
-	})
-	.catch(err => console.log("Problem with getRace request::", err))
+	}).then(res => res)
+	.catch(err => console.log("Problem with accelerate request::", err))
 }
