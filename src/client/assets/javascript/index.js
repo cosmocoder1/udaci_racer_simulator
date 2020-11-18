@@ -76,7 +76,7 @@ async function delay(ms) {
 
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
-  
+  try {
   // TODO - Get player_id and track_id from the store
 	const trackId = store.track_id;
 	const playerId = store.player_id;
@@ -99,7 +99,9 @@ async function handleCreateRace() {
 	const countdown = await runCountdown();
 	const start = await startRace(store.race_id);
 	const run = await runRace(store.race_id);
-
+} catch (error) {
+	console.log('handleCreateRace error')
+}
 }
 
 function runRace(raceID) {
